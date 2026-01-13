@@ -55,11 +55,10 @@ export default async function Home() {
         <h2 className="text-3xl font-bold text-center mb-12">Shop by Category</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {["Electronics", "Fashion", "Home & Living", "Accessories"].map((cat, i) => (
-            <div key={i} className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg">
+            <Link key={i} href={`/items#${cat}`} className="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg block">
               <div className={`absolute inset-0 bg-gray-200 transition-transform duration-500 group-hover:scale-110`}>
-                 {/* Placeholder for real images */}
                  <img 
-                    src={`https://source.unsplash.com/random/400x400/?${cat.split(' ')[0]}`} 
+                    src={`https://loremflickr.com/400/400/${cat.toLowerCase().split(' ')[0]}?lock=${i}`} 
                     alt={cat} 
                     className="w-full h-full object-cover"
                  />
@@ -69,7 +68,7 @@ export default async function Home() {
                 <h3 className="text-xl font-bold">{cat}</h3>
                 <p className="text-sm opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">Explore &rarr;</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

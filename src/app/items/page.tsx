@@ -46,7 +46,7 @@ export default async function ItemsPage() {
       ) : (
           <div className="space-y-16">
             {categories.map(category => (
-                <section key={category}>
+                <section key={category} id={category} className="scroll-mt-24">
                     <div className="flex items-center gap-4 mb-6">
                         <h2 className="text-2xl font-bold">{category}</h2>
                         <div className="h-px bg-border flex-1" />
