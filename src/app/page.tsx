@@ -81,7 +81,9 @@ export default async function Home() {
                 <h2 className="text-3xl font-bold">Trending Now</h2>
                 <p className="text-muted-foreground mt-2">The most desired items of the season.</p>
             </div>
-            <Button variant="ghost" className="hidden md:flex gap-2">View All <ArrowRight className="w-4 h-4" /></Button>
+            <Link href="/items">
+              <Button variant="ghost" className="hidden md:flex gap-2">View All <ArrowRight className="w-4 h-4" /></Button>
+            </Link>
         </div>
         
         {trendingItems.length > 0 ? (
@@ -97,7 +99,9 @@ export default async function Home() {
         )}
 
         <div className="mt-8 text-center md:hidden">
-            <Button variant="outline" className="w-full">View All Trending</Button>
+            <Link href="/items">
+              <Button variant="outline" className="w-full">View All Trending</Button>
+            </Link>
         </div>
       </section>
 
