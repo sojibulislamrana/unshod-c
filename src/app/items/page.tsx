@@ -1,8 +1,10 @@
 import ProductCard from '@/components/ProductCard';
 
+import { getApiUrl } from '@/lib/config';
+
 async function getItems() {
   try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+      const apiUrl = getApiUrl();
       const res = await fetch(`${apiUrl}/api/items`, { cache: 'no-store' });
       if (!res.ok) {
         throw new Error('Failed to fetch data');

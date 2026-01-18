@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useSession } from 'next-auth/react';
 import { useToast } from '@/components/ui/Toast';
+import { getApiUrl } from '@/lib/config';
 
 export default function AddItemPage() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function AddItemPage() {
     setLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+      const apiUrl = getApiUrl();
       const res = await fetch(`${apiUrl}/api/items`, {
         method: 'POST',
         headers: {

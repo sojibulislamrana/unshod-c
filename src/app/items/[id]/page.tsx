@@ -3,9 +3,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+import { getApiUrl } from '@/lib/config';
+
 async function getItem(id: string) {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+    const apiUrl = getApiUrl();
     const res = await fetch(`${apiUrl}/api/items/${id}`, { cache: 'no-store' });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error('Failed to fetch item');

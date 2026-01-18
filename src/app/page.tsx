@@ -6,10 +6,11 @@ import NewsletterForm from "@/components/sections/NewsletterForm";
 
 import ProductCard from '@/components/ProductCard';
 
+import { getApiUrl } from '@/lib/config';
+
 async function getTrendingItems() {
   try {
-      // Use 127.0.0.1 to avoid Node.js localhost IPv6 issues
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+      const apiUrl = getApiUrl();
       const res = await fetch(`${apiUrl}/api/items`, { cache: 'no-store' }); 
       if (!res.ok) return [];
       const items = await res.json();
