@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShoppingBag, Menu, X, LogOut, PlusCircle } from 'lucide-react';
+import { ShoppingBag, Menu, X, LogOut, PlusCircle, Settings, User, LayoutDashboard } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import { useSession, signOut } from 'next-auth/react';
+import { Avatar } from '@/components/ui/Avatar';
+import { DropdownMenu, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/ui/Dropdown';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,15 +54,32 @@ export default function Navbar() {
                         </Button>
                     </Link>
                     <div className="flex items-center gap-4 border-l border-border pl-4">
-                        <span className="text-sm font-medium">{session.user?.name || "Admin"}</span>
-                        <Button 
-                            variant="destructive" 
-                            size="sm" 
-                            onClick={() => signOut({ callbackUrl: '/' })}
-                            className="gap-2"
-                        >
-                            <LogOut className="w-4 h-4" /> Logout
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownTrigger>
+                                <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                                    <span className="text-sm font-medium">{session.user?.name || "Admin"}</span>
+                                    <Avatar src={session.user?.image} fallback={session.user?.name?.charAt(0) || "U"} className="w-8 h-8" />
+                                </div>
+                            </DropdownTrigger>
+                            <DropdownContent align="right">
+                                <Link href="/dashboard">
+                                    <DropdownItem>
+                                        <LayoutDashboard className="w-4 h-4 mr-2" />
+                                        Dashboard
+                                    </DropdownItem>
+                                </Link>
+                                <Link href="/settings">
+                                    <DropdownItem>
+                                        <Settings className="w-4 h-4 mr-2" />
+                                        Settings
+                                    </DropdownItem>
+                                </Link>
+                                <DropdownItem onClick={() => signOut({ callbackUrl: '/' })}>
+                                    <LogOut className="w-4 h-4 mr-2" />
+                                    Logout
+                                </DropdownItem>
+                            </DropdownContent>
+                        </DropdownMenu>
                     </div>
                 </>
             ) : (
@@ -108,6 +127,11 @@ export default function Navbar() {
                             <Button variant="outline" className="w-full justify-start gap-2">
                                 <PlusCircle className="w-4 h-4" /> Add Item
                             </Button>
+                        </Link>
+                        <Link href="/settings" onClick={() => setIsOpen(false)}>
+                             <Button variant="ghost" className="w-full justify-start gap-2">
+                                 <Settings className="w-4 h-4" /> Settings
+                             </Button>
                         </Link>
                         <Button 
                             variant="destructive" 

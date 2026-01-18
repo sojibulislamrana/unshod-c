@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useSession } from 'next-auth/react';
+import { useToast } from '@/components/ui/Toast';
 
 export default function AddItemPage() {
   const router = useRouter();
-  const { data: session } = useSession(); // Middleware handles redirect, but good to have
+  const { data: session } = useSession();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -17,8 +19,6 @@ export default function AddItemPage() {
     imageUrl: '',
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,11 +27,9 @@ export default function AddItemPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
-    setSuccess('');
 
     try {
-      const res = await fetch('http://localhost:5001/api/items', {
+      const res = await fetch('http://127.0.0.1:5001/api/items', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,13 +44,13 @@ export default function AddItemPage() {
         throw new Error('Failed to create item');
       }
 
-      setSuccess('Item created successfully!');
+      toast('Item created successfully!', 'success');
       setTimeout(() => {
         router.push('/items');
         router.refresh();
       }, 1500);
     } catch (err) {
-      setError('Failed to add item. Ensure server is running.');
+      toast('Failed to add item. Ensure server is running.', 'error');
     } finally {
       setLoading(false);
     }
@@ -62,18 +60,6 @@ export default function AddItemPage() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Add New Item</h1>
       
-      {success && (
-          <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-md border border-green-200">
-              {success}
-          </div>
-      )}
-
-      {error && (
-          <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-md border border-red-200">
-              {error}
-          </div>
-      )}
-
       <form onSubmit={handleSubmit} className="space-y-6 bg-card p-6 rounded-xl border shadow-sm">
         <div>
           <label className="block text-sm font-medium mb-2">Product Name</label>
