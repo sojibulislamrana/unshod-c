@@ -5,7 +5,8 @@ import { notFound } from 'next/navigation';
 
 async function getItem(id: string) {
   try {
-    const res = await fetch(`http://127.0.0.1:5001/api/items/${id}`, { cache: 'no-store' });
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+    const res = await fetch(`${apiUrl}/api/items/${id}`, { cache: 'no-store' });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error('Failed to fetch item');
     return res.json();

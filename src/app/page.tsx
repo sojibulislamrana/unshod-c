@@ -9,7 +9,8 @@ import ProductCard from '@/components/ProductCard';
 async function getTrendingItems() {
   try {
       // Use 127.0.0.1 to avoid Node.js localhost IPv6 issues
-      const res = await fetch('http://127.0.0.1:5001/api/items', { cache: 'no-store' }); 
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+      const res = await fetch(`${apiUrl}/api/items`, { cache: 'no-store' }); 
       if (!res.ok) return [];
       const items = await res.json();
       return items.slice(0, 4); // Just take first 4 as trending
